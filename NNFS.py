@@ -1,53 +1,60 @@
-import numpy as np 
+import matplotlib.pyplot as plt 
+import numpy as np
 
 def sigmoid(x):
-	return 1 / (np.exp(-x))
+	return 1 / (1 + np.exp(-x))
 
-_1 = [
-	0,0,1,0,0,
-	0,0,1,0,0,
-	0,0,1,0,0,
-	0,0,1,0,0,
-	0,0,1,0,0,
-	0,0,1,0,0,
-]
-_2 = [
-	0,1,1,1,0,
-	0,1,0,0,1,
-	0,0,0,1,0,
-	0,0,1,0,0,
-	0,0,1,0,0,
-	1,1,1,1,1
+def d_sigmoid(x):
+	return x * (1 - x)
+
+a = [
+	1,1,1,1,1,1,
+	1,0,0,0,0,1,
+	1,1,1,1,1,1,
+	1,0,0,0,0,1,
+	1,0,0,0,0,1,
 ]
 
-x = [np.array(_1).reshape(1,30), np.array(_2).reshape(1,30)]
+b = [
+	1,1,1,1,1,1,
+	1,0,0,0,0,1,
+	1,1,1,1,1,1,
+	1,0,0,0,0,1,
+	1,1,1,1,1,1
+]
 
-y = [
+a = np.array(a).reshape(15,2)
+
+b = np.array(b).reshape(15,2)
+
+x = [a, b]
+
+x = np.array(x)
+y = np.array([
 	[1,0],
 	[0,1]
-]
-y = np.array(y)
+])
 
 lr = 0.1
 
-w1 = np.zeros((30,4))
-w2 = np.zeros((4,2))
+w1 = np.random.randn(4,15)
+w2 = np.random.randn(2,4)
 
-z1 = np.dot(x, w1)
-a1 = sigmoid(z1)
+for i in range(1000):
+	z1 = np.dot(w1, x[1])
+	a1 = sigmoid(z1)
 
-z2 = np.dot(a1, w2)
-a2 = sigmoid(z2)
+	z2 = np.dot(w2, a1)
+	a2 = sigmoid(z2)
 
-
-
-for i in range(100):
-	#error
 	d2 = (a2 - y)
-	d1 = np.dot(w2, d2.T).T * (a1 * (1 - a1))
+	d1 = np.dot(w2.T, d2) * d_sigmoid(z1)
 
-	w1_adj = np.dot(d1, x)
-	w2_adj = np.dot(d2, a1)
+	w1_adj = np.dot(d1, x[1].T)
+	w2_adj = np.dot(d2, a1.T)
 
 	w1 -= lr * w1_adj
 	w2 -= lr * w2_adj
+
+print(w1,'\n\n')
+print(w2)
