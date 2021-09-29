@@ -135,5 +135,5 @@ plt.ylabel("Accuracy")
 plt.xlabel("Epochs")
 plt.show()
 
-plt.imshow(b_.reshape(6, 5), cmap = 'gray')
+plt.imshow(x[0].reshape(6, 5), cmap = 'gray')
 plt.show()
