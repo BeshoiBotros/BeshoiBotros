@@ -122,18 +122,8 @@ def predict(x, w1, w2):
 
 print(w1, '\n\n\n\n', w2)
 
-b_ = [
-	0,0,0,0,0,
-	0,0,0,0,0,
-	0,0,0,0,0,
-	0,0,0,0,0,
-	0,0,0,0,0,
-	0,0,0,0,0
-]
 
-b_ = np.array(b_).reshape(30, 1)
-
-print(predict(b_, w1, w2))
+print(predict(x[0], w1, w2))
 
 plt.plot(loss)
 plt.ylabel("Loss")
